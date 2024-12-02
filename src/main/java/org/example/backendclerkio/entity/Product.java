@@ -23,7 +23,7 @@ public class Product {
     private int productId;
 
     @Column(name = "product_name", nullable = false)
-    private String name;
+    private String title;
 
     @Column(name = "product_price", nullable = false)
     private float price;
@@ -43,32 +43,47 @@ public class Product {
     @Column(name = "discount")
     private float discount;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    @ManyToMany
     @JoinTable(
-            name = "category_product",
+            name = "product_tags",
             joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    @JsonManagedReference // Indicates this is the "parent" side of the relationship
-    private Set<Category> categories;
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags;
 
     // Convenience constructor
-    public Product(String title, String description, float price, int stock, Set<Category> categories, List<String> images, float discount) {
-        this.name = title;
+    public Product(String title, String description, float price, int stock, Category category, List<String> images, float discount) {
+        this.title = title;
         this.description = description;
         this.price = price;
         this.stockCount = stock;
         this.discount = discount;
-        this.categories = categories;
+        this.category = category;
         this.images = images;
     }
 
     public Product(String title, String description, float price, int stock, String category, List<String> images, float discount) {
-        this.name = title;
+        this.title = title;
         this.description = description;
         this.price = price;
         this.stockCount = stock;
         this.images = images;
+        this.discount = discount;
+    }
+
+    // Constructor
+    public Product(String title, String description, float price, int stock,
+                   Category category, List<String> images, Set<Tag> tags, float discount) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.stockCount = stock;
+        this.category = category;
+        this.images = images;
+        this.tags = tags;
         this.discount = discount;
     }
 }

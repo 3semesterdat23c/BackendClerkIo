@@ -1,7 +1,10 @@
 package org.example.backendclerkio.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.example.backendclerkio.entity.Tag;
+
 import java.util.List;
+import java.util.Set;
 
 public record ProductRequestDTO(
         @JsonProperty("title") String title,
@@ -9,6 +12,7 @@ public record ProductRequestDTO(
         @JsonProperty("price") float price,
         @JsonProperty("stock") int stock,
         @JsonProperty("category") String category,
+        @JsonProperty("tags") List<String> tags,
         @JsonProperty("discountPercentage") float discountPercentage,
         @JsonProperty("images") List<String> images
 ) {}

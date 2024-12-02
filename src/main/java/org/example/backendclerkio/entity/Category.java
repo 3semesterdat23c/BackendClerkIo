@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -25,10 +26,17 @@ public class Category {
     @Column(name = "category_name", nullable = false)
     private String categoryName;
 
-    @Column(name = "parent_category_id")
-    private Integer parentCategoryId;
+    @ManyToMany
+    @JoinTable(
+            name = "category_product", // Join table name
+            joinColumns = @JoinColumn(name = "category_id"), // Foreign key for Category
+            inverseJoinColumns = @JoinColumn(name = "product_id") // Foreign key for Product
+    )
+    private Set<Product> products = new HashSet<>();
 
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
-    @JsonBackReference
-    private Set<Product> products;
+    public Category(String categoryName, Set<Product> products) {
+        this.categoryName = categoryName;
+        this.products = products;
+    }
 }
+
