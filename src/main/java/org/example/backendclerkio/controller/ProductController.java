@@ -30,8 +30,11 @@ public class ProductController {
             @RequestParam(required = false) String category,
             @RequestParam(required = false, defaultValue = "") String search,
             @RequestParam(defaultValue = "false") boolean lowStock,
-            @RequestParam(defaultValue = "false") boolean outOfStock
-    ) {
+            @RequestParam(defaultValue = "false") boolean outOfStock,
+            @RequestParam(required = false) Double min,
+            @RequestParam(required = false) Double max
+
+            ) {
         if (category != null) {
             return productService.findByCategory(category, pageable);
         }
@@ -40,6 +43,11 @@ public class ProductController {
         } else if (lowStock || outOfStock) {
             return productService.findFilteredProducts(pageable, lowStock, outOfStock);
         }
+        else if (min != null && max != null) {
+            // Apply price range filter if both min and max are provided
+            return productService.findAllByPriceBetween(min, max, pageable);
+        }
+
         return productService.findAll(pageable);
     }
 

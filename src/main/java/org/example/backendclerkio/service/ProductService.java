@@ -216,6 +216,9 @@ public class ProductService {
     public Page<Product> searchProductsByName(String title, Pageable pageable) {
         return productRepository.findByTitleContainingIgnoreCase(title, pageable);
     }
+    public Page<Product> findAllByPriceBetween(Double min, Double max, Pageable pageable){
+        return productRepository.findAllByPriceBetween(min, max, pageable);
+    }
 }
 
 

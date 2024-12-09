@@ -16,5 +16,6 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     Page<Product> findByStockCountBetween(int min, int max, Pageable pageable);
     Page<Product> findByStockCount(int stock, Pageable pageable);
     Page<Product> findByTitleContainingIgnoreCase(String name, Pageable pageable);
+    Page<Product> findAllByPriceBetween(Double min, Double max, Pageable pageable);
 
 }
